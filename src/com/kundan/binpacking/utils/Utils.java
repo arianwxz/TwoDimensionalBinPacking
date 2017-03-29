@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
+import com.kundan.binpacking.configuration.Config;
 import com.kundan.binpacking.core.Bin;
 import com.kundan.binpacking.core.Item;
 import com.kundan.binpacking.core.Shelf;
@@ -61,8 +63,8 @@ public class Utils {
 		return result;
 	}
 
-	public static ArrayList<Bin> getNFDHBinPacking(ArrayList<Item> pItems) {
-		ArrayList<Bin> resultBins = new ArrayList<Bin>();
+	public static List<Bin> getNFDHBinPacking(List<Item> pItems) {
+		List<Bin> resultBins = new ArrayList<Bin>();
 		Bin bin = null;
 		Collections.sort(pItems, new DecresingHeightComparator());
 		for (Item item : pItems) {
@@ -86,7 +88,7 @@ public class Utils {
 		return resultBins;
 	}
 
-	private static boolean canFitInBin(Bin bin, Item item) {
+	public static boolean canFitInBin(Bin bin, Item item) {
 		boolean result = false;
 		if(bin != null){
 			for(Shelf shelf : bin.mShelves){
@@ -128,6 +130,32 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+	
+	public static List<Config> cloneList(List<Config> list) throws CloneNotSupportedException {
+	    List<Config> clone = new ArrayList<Config>(list.size());
+	    for (Config item : list) clone.add(item.clone());
+	    return clone;
+	}
+	
+	public static List<Shelf> cloneShelfList(List<Shelf> list) throws CloneNotSupportedException {
+	    List<Shelf> clone = new ArrayList<Shelf>(list.size());
+	    for (Shelf item : list) clone.add(item.clone());
+	    return clone;
+	}
+
+	public static List<Item> cloneItemList(List<Item> list) throws CloneNotSupportedException {
+		List<Item> clone = new ArrayList<Item>(list.size());
+	    for (Item item : list) clone.add(item.clone());
+	    return clone;
+	}
+
+	public static List<Bin> getAllConfigBinPacking(List<Config> configs) {
+		List<Bin> bins = new ArrayList<Bin>();
+		for(Config config : configs){
+			bins.add(config.mBin);
+		}
+		return bins;
 	}
 
 }

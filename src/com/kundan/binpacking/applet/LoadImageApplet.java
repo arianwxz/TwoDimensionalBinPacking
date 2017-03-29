@@ -24,7 +24,12 @@ public class LoadImageApplet extends Applet {
 
 	@Override
 	public void init() {
-		BinPackingAlgorithm.init();
+		try {
+			BinPackingAlgorithm.init();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		super.init();
 	}
 
@@ -37,7 +42,6 @@ public class LoadImageApplet extends Applet {
 			int startX = binPointerx * 100;
 			int startY = binPointery * 100;
 			int shelfCurrentY = startY;
-			System.out.println(bin);
 			Random rand = new Random();
 			int colorR = rand.nextInt(256);
 			int colorG = rand.nextInt(256);
@@ -63,7 +67,6 @@ public class LoadImageApplet extends Applet {
 			} else {
 				binPointerx++;
 			}
-			System.out.println(count);
 		}
 	}
 }

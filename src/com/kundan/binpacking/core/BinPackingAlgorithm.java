@@ -1,7 +1,12 @@
 package com.kundan.binpacking.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import com.kundan.binpacking.configuration.Config;
+import com.kundan.binpacking.configuration.ConfigGenerator;
+import com.kundan.binpacking.utils.ConfigSorter;
 import com.kundan.binpacking.utils.Utils;
 
 /**
@@ -12,14 +17,15 @@ import com.kundan.binpacking.utils.Utils;
  */
 public class BinPackingAlgorithm {
 	
-	public static ArrayList<Item> mItems;
-	public static ArrayList<Bin> mBins;
+	public static List<Item> mItems;
+	public static List<Bin> mBins;
 
 	/**
 	 * main method.
 	 * @param args
+	 * @throws CloneNotSupportedException 
 	 */
-	public static void init(){
+	public static void init() throws CloneNotSupportedException{
 		System.out.println("Start of Algorithm");
 		// get all the items
 		// get the bin size
@@ -29,7 +35,15 @@ public class BinPackingAlgorithm {
 		System.out.println("Given Items.");
 		System.out.println(mItems);
 		
+		ConfigGenerator generator = new ConfigGenerator();
+		List<Config> configs = generator.fetchAllConfigs(mItems);
+		
+		//getting the bins fitted with NFDH
 		mBins = Utils.getNFDHBinPacking(mItems);
+
+		//getting all configs possible.
+		//Collections.sort(configs, new ConfigSorter());
+		//mBins.addAll(Utils.getAllConfigBinPacking(configs));
 		
 		// call the method which will return the packing.
 		System.out.println("End of Algorithm");

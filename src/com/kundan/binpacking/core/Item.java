@@ -9,4 +9,13 @@ public class Item {
 	public String toString() {
 		return "<"+index+": "+mWidth+","+mHieght+">";
 	}
+	
+	@Override
+	public Item clone() throws CloneNotSupportedException {
+		Item item = new Item();
+		item.mHieght = mHieght;
+		item.mWidth = mWidth;
+		item.index = index;
+		return item;
+	}
 }
