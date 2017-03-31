@@ -7,6 +7,7 @@ import java.util.List;
 import com.kundan.binpacking.configuration.Config;
 import com.kundan.binpacking.configuration.ConfigGenerator;
 import com.kundan.binpacking.utils.ConfigSorter;
+import com.kundan.binpacking.utils.ItemRounder;
 import com.kundan.binpacking.utils.Utils;
 
 /**
@@ -38,9 +39,23 @@ public class BinPackingAlgorithm {
 		ConfigGenerator generator = new ConfigGenerator();
 		List<Config> configs = generator.fetchAllConfigs(mItems);
 		
+		double accuracyE = 0.5; 
+		double delta = 0.5;
+		ItemRounder rounder = new ItemRounder();
+		rounder.doRounding(mItems, delta, Math.pow(delta, 4));
+		
+		System.out.println("BIG:"+rounder.mBigItems);
+		System.out.println("SMALL:"+rounder.mSmallItems);
+		System.out.println("WIDE:"+rounder.mWideItems);
+		System.out.println("LONG:"+rounder.mLongItems);
+		System.out.println("MEDIUM:"+rounder.mMediomItems);
+		
 		//getting the bins fitted with NFDH
-		mBins = Utils.getNFDHBinPacking(mItems);
-
+		mBins = Utils.getNFDHBinPacking(rounder.mBigItems);
+		mBins.addAll(Utils.getNFDHBinPacking(rounder.mMediomItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounder.mSmallItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounder.mWideItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounder.mLongItems));
 		//getting all configs possible.
 		//Collections.sort(configs, new ConfigSorter());
 		//mBins.addAll(Utils.getAllConfigBinPacking(configs));
