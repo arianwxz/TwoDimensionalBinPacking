@@ -7,7 +7,7 @@ import java.util.List;
 import com.kundan.binpacking.configuration.Config;
 import com.kundan.binpacking.configuration.ConfigGenerator;
 import com.kundan.binpacking.utils.ConfigSorter;
-import com.kundan.binpacking.utils.ItemRounder;
+import com.kundan.binpacking.utils.ItemRounderClassifier;
 import com.kundan.binpacking.utils.Utils;
 
 /**
@@ -37,25 +37,31 @@ public class BinPackingAlgorithm {
 		System.out.println(mItems);
 		
 		ConfigGenerator generator = new ConfigGenerator();
-		List<Config> configs = generator.fetchAllConfigs(mItems);
+		//List<Config> configs = generator.fetchAllConfigs(mItems);
 		
 		double accuracyE = 0.5; 
 		double delta = 0.5;
-		ItemRounder rounder = new ItemRounder();
-		rounder.doRounding(mItems, delta, Math.pow(delta, 4));
 		
-		System.out.println("BIG:"+rounder.mBigItems);
-		System.out.println("SMALL:"+rounder.mSmallItems);
-		System.out.println("WIDE:"+rounder.mWideItems);
-		System.out.println("LONG:"+rounder.mLongItems);
-		System.out.println("MEDIUM:"+rounder.mMediomItems);
+		ItemRounderClassifier rounderClassifier = new ItemRounderClassifier();
+		List<Item> roundedItems = rounderClassifier.doRounding(mItems, 0.1);
+		rounderClassifier.doClassification(roundedItems, delta, Math.pow(delta, 4));
+		
+		System.out.println("BIG:"+rounderClassifier.mBigItems);
+		System.out.println("SMALL:"+rounderClassifier.mSmallItems);
+		System.out.println("WIDE:"+rounderClassifier.mWideItems);
+		System.out.println("LONG:"+rounderClassifier.mLongItems);
+		System.out.println("MEDIUM:"+rounderClassifier.mMediomItems);
+		
+		rounderClassifier.prepareContainers(roundedItems);
+		
+		List<Item> rolledBack  = rounderClassifier.roundedItems(mItems);
 		
 		//getting the bins fitted with NFDH
-		mBins = Utils.getNFDHBinPacking(rounder.mBigItems);
-		mBins.addAll(Utils.getNFDHBinPacking(rounder.mMediomItems));
-		mBins.addAll(Utils.getNFDHBinPacking(rounder.mSmallItems));
-		mBins.addAll(Utils.getNFDHBinPacking(rounder.mWideItems));
-		mBins.addAll(Utils.getNFDHBinPacking(rounder.mLongItems));
+		mBins = Utils.getNFDHBinPacking(rolledBack);
+		/*mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mMediomItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mSmallItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mWideItems));
+		mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mLongItems));*/
 		//getting all configs possible.
 		//Collections.sort(configs, new ConfigSorter());
 		//mBins.addAll(Utils.getAllConfigBinPacking(configs));

@@ -18,11 +18,11 @@ public class GenerateTestSample {
 		FileOutputStream fos = null;
 		BufferedOutputStream bos = null;
 		try {
-			file = new File("D:\\items.txt");
+			file = new File("D:\\items1.txt");
 			fos = new FileOutputStream(file);
 			bos = new BufferedOutputStream(fos);
 			Random rand = new Random();
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < 100; i++) {
 				bos.write(new String(rand.nextDouble() + " "
 						+ rand.nextDouble()).getBytes());
 				bos.write("\n".getBytes());

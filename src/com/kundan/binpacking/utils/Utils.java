@@ -27,7 +27,7 @@ public class Utils {
 		BufferedReader bis = null;
 		final ArrayList<Item> result = new ArrayList<Item>();
 		try {
-			file = new File("D:\\items.txt");
+			file = new File("D:\\items1.txt");
 			fis = new FileReader(file);
 			bis = new BufferedReader(fis);
 			String str = bis.readLine();
