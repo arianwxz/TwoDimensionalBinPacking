@@ -52,9 +52,9 @@ public class BinPackingAlgorithm {
 		System.out.println("LONG:"+rounderClassifier.mLongItems);
 		System.out.println("MEDIUM:"+rounderClassifier.mMediomItems);
 		
-		rounderClassifier.prepareContainers(roundedItems);
+		List<Item> IDash = rounderClassifier.prepareContainers(roundedItems);
 		
-		List<Item> rolledBack  = rounderClassifier.roundedItems(mItems);
+		List<Item> rolledBack  = rounderClassifier.roundedItems(roundedItems);
 		
 		//getting the bins fitted with NFDH
 		mBins = Utils.getNFDHBinPacking(rolledBack);
