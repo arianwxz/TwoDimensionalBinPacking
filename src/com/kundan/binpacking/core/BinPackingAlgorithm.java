@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kundan.binpacking.configuration.Config;
 import com.kundan.binpacking.configuration.ConfigGenerator;
+import com.kundan.binpacking.configuration.LinearProgramSolver;
 import com.kundan.binpacking.utils.ConfigSorter;
 import com.kundan.binpacking.utils.ItemRounderClassifier;
 import com.kundan.binpacking.utils.Utils;
@@ -37,7 +38,6 @@ public class BinPackingAlgorithm {
 		System.out.println(mItems);
 		
 		ConfigGenerator generator = new ConfigGenerator();
-		//List<Config> configs = generator.fetchAllConfigs(mItems);
 		
 		double accuracyE = 0.5; 
 		double delta = 0.5;
@@ -54,10 +54,15 @@ public class BinPackingAlgorithm {
 		
 		List<Item> IDash = rounderClassifier.prepareContainers(roundedItems);
 		
-		List<Item> rolledBack  = rounderClassifier.roundedItems(roundedItems);
+		List<Config> configs = generator.fetchAllConfigs(IDash);
+		
+		LinearProgramSolver solver = new LinearProgramSolver();
+		//YTD: TODO
+		
+		List<Item> rolledBack  = rounderClassifier.roundedItems(IDash);
 		
 		//getting the bins fitted with NFDH
-		mBins = Utils.getNFDHBinPacking(rolledBack);
+		mBins = Utils.getNFDHBinPacking(mItems);
 		/*mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mMediomItems));
 		mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mSmallItems));
 		mBins.addAll(Utils.getNFDHBinPacking(rounderClassifier.mWideItems));
