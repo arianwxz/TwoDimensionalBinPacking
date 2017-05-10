@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.kundan.binpacking.configuration.Config;
 import com.kundan.binpacking.configuration.ConfigGenerator;
-import com.kundan.binpacking.configuration.LinearProgramSolver;
+import com.kundan.binpacking.configuration.LinearProgramHelper;
 import com.kundan.binpacking.utils.ConfigSorter;
 import com.kundan.binpacking.utils.ItemRounderClassifier;
 import com.kundan.binpacking.utils.Utils;
@@ -46,18 +46,19 @@ public class BinPackingAlgorithm {
 		List<Item> roundedItems = rounderClassifier.doRounding(mItems, 0.1);
 		rounderClassifier.doClassification(roundedItems, delta, Math.pow(delta, 4));
 		
-		System.out.println("BIG:"+rounderClassifier.mBigItems);
+		/*System.out.println("BIG:"+rounderClassifier.mBigItems);
 		System.out.println("SMALL:"+rounderClassifier.mSmallItems);
 		System.out.println("WIDE:"+rounderClassifier.mWideItems);
 		System.out.println("LONG:"+rounderClassifier.mLongItems);
-		System.out.println("MEDIUM:"+rounderClassifier.mMediomItems);
+		System.out.println("MEDIUM:"+rounderClassifier.mMediomItems);*/
 		
 		List<Item> IDash = rounderClassifier.prepareContainers(roundedItems);
 		
 		List<Config> configs = generator.fetchAllConfigs(IDash);
 		
-		LinearProgramSolver solver = new LinearProgramSolver();
+		LinearProgramHelper solver = new LinearProgramHelper();
 		//YTD: TODO
+		double value = solver.solve1(IDash, configs);
 		
 		List<Item> rolledBack  = rounderClassifier.roundedItems(IDash);
 		

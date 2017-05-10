@@ -22,7 +22,7 @@ public class GenerateTestSample {
 			fos = new FileOutputStream(file);
 			bos = new BufferedOutputStream(fos);
 			Random rand = new Random();
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < 200; i++) {
 				bos.write(new String(rand.nextDouble() + " "
 						+ rand.nextDouble()).getBytes());
 				bos.write("\n".getBytes());
